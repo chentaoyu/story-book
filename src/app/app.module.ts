@@ -4,17 +4,25 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonComponent } from './component/button/button.component';
-import { TransferComponent } from './component/transfer/transfer.component';
+import { TransferModule } from './component/transfer/transfer.module';
+import { CheckboxModule } from './component/checkbok/checkbox.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ButtonComponent,
-    TransferComponent
+    ButtonComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TransferModule,
+    CheckboxModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+
   ],
   providers: [],
   bootstrap: [AppComponent]
