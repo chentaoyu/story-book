@@ -1,0 +1,24 @@
+<div class="transfer-list-header">
+    <label ct-checkbox class="transfor-list-wrapper " [ngModel]="stat.checkAll" [ctIndeterminate]="stat.checkHalf"
+        (ngModelChange)="_selectAll($event)">
+        <span>
+            {{ (stat.checkCount > 0 ? stat.checkCount + '/' : '') + stat.shownCount}}
+        </span>
+    </label>
+</div>
+<div class="transfer-list-body">
+    <div ct-transfer-search class="transfer-list-search-head" *ngIf="showSearch" [placeholder]="searchPlaceholder"
+        (valueChanged)="handleFilter($event)" (valueClear)="handleClear()">
+    </div>
+    <ul class="transfer-list-ul">
+        <ng-container *ngFor="let item of dataSource">
+            <li *ngIf="!item._hiden" class="transfer-list-li" (click)="_handerSelect(item)">
+                <label ct-checkbox class="transfor-list-wrapper" [ngModel]="item.checked">
+                    <ng-container>{{ item.title }}</ng-container>
+                    <!-- *ngIf="!render; else renderContainer" -->
+                    <!-- <ng-template #renderContainer [ngTemplateOutlet]="render" [ngTemplateOutletContext]="{ $implicit: item }"></ng-template> -->
+                </label>
+            </li>
+        </ng-container>
+    </ul>
+</div>

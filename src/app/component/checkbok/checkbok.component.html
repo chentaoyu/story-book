@@ -1,0 +1,7 @@
+<span [ngClass]="classMap">
+  <input #inputElement [checked]="ctChecked" type="checkbox" class="checkbox-input" (blur)="onBlur()">
+  <span class="checkbox-inner"></span>
+</span>
+<span #contentElement (cdkObserveContent)="checkContent()" class="checkbox-content">
+  <ng-content></ng-content>
+</span>
