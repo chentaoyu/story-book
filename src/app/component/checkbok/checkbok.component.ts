@@ -23,7 +23,6 @@ import { CheckboxWrapperComponent } from './checkbox-wrapper.component';
 @Component({
   selector: 'ct-checkbox,[ct-checkbox]',
   templateUrl: './checkbok.component.html',
-  styleUrls: ['./checkbok.component.scss'],
   // encapsulation: ViewEncapsulation.None,
   providers: [
     {
@@ -56,7 +55,6 @@ export class CheckbokComponent implements OnInit, AfterViewInit, ControlValueAcc
     if (!this.ctDisabled) {
       this.updateValue(!this.ctChecked);
     }
-    console.log(this.ctChecked)
   }
 
   @Input() set ctChecked(value: boolean) {
@@ -156,7 +154,7 @@ export class CheckbokComponent implements OnInit, AfterViewInit, ControlValueAcc
   }
 
   ngOnChanges() {
-    console.log('check change', this);
+    this.updateClassMap();
   }
 
   ngAfterViewInit(): void {

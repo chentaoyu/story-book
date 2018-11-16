@@ -1,1 +1,2 @@
-<app-transfer [dataSource]="dataSource" [titleText]="titleText"></app-transfer>
+<app-transfer [dataSource]="dataSource" [titleText]="titleText" (selectChange)="selectChange($event)"
+    [searchPlaceholder]="searchPlaceholder" [filterOption]="filterOption" (searchChange)="searchChange($event)"></app-transfer>

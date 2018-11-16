@@ -10,6 +10,10 @@ export class AppComponent implements OnInit {
   title = 'demo';
   dataSource = [];
   titleText = 'select all';
+  searchPlaceholder = 'input';
+  selectChange(value) {
+    console.log(2, value);
+  }
   ngOnInit(): void {
     for (let i = 0; i < 20; i++) {
       this.dataSource.push({
@@ -19,5 +23,13 @@ export class AppComponent implements OnInit {
         direction: Math.random() * 2 > 1 ? 'right' : ''
       });
     }
+  }
+
+  filterOption(inputValue: string, item: any): boolean {
+    return item.description.indexOf(inputValue) > -1;
+  }
+
+  searchChange(value) {
+    console.log(value);
   }
 }

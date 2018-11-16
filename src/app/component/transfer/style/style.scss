@@ -29,6 +29,8 @@
     height: 25px;
     padding: 0 5px;
     font-size: 14px;
+    background: #f0efef;
+    outline: none;
 }
 
 .transfer-list-ul {
@@ -62,6 +64,12 @@
     min-height: 32px;
     transition: all .3s;
     box-sizing: border-box;
+    z-index: 99;
+    cursor: pointer;
+
+    &:hover {
+        background: #e6f7ff;
+    }
 }
 
 .transfor-list-wrapper {
@@ -77,4 +85,74 @@
     line-height: unset;
     cursor: pointer;
     display: inline-block;
+}
+
+.transfor-arrow {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
+
+    & div.disabled {
+        cursor: not-allowed;
+        width: 40px;
+        height: 25px;
+        background: #f5f5f5;
+        border-radius: 3px;
+        text-align: center;
+        border: 1px solid #d9d9d9;
+
+        &.transfor-arrow-right {
+            margin-top: 5px;
+
+            &::after {
+                content: "\003E";
+                color: #bdbdbd;
+                vertical-align: middle;
+            }
+        }
+
+        &.transfor-arrow-left {
+            margin-bottom: 5px;
+
+            &::after {
+                content: "\003c";
+                color: #bdbdbd;
+                vertical-align: middle;
+            }
+        }
+    }
+
+    & div.checked {
+        cursor: pointer;
+        width: 40px;
+        height: 25px;
+        background: #1890ff;
+        border-radius: 3px;
+        text-align: center;
+        border: 1px solid #1890ff;
+
+        &.transfor-arrow-left {
+            margin-bottom: 5px;
+
+            &::after {
+                content: "\003C";
+                color: white;
+                vertical-align: middle;
+            }
+        }
+
+        &.transfor-arrow-right {
+            margin-top: 5px;
+
+            &::after {
+                content: "\003E";
+                color: white;
+                vertical-align: middle;
+            }
+        }
+
+        &:active {
+            background: #519fe8;
+        }
+    }
 }

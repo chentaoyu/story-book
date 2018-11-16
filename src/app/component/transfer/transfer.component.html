@@ -1,2 +1,10 @@
-<app-transfer-list [dataSource]="leftDataSource" [titleText]="titleText" (handleSelect)="handleSelect($event)"
-    (allHandleSelect)="allHandleSelect($event)"></app-transfer-list>
+<app-transfer-list [dataSource]="leftDataSource" [titleText]="titleText" (handleSelect)="handleLeftSelect($event)"
+    (allHandleSelect)="handleLeftSelect($event)" [filterOption]="filterOption" (filterChange)="handleFilterChange($event)"
+    [searchPlaceholder]="searchPlaceholder" (status)="status('right',$event)" data-direction="left"></app-transfer-list>
+<div class="transfor-arrow">
+    <div [ngClass]="{'transfor-arrow-left': true, 'disabled':!this.leftStatus,'checked':this.leftStatus}"></div>
+    <div [ngClass]="{'transfor-arrow-right': true, 'disabled':!this.rightStatus,'checked':this.rightStatus}"></div>
+</div>
+<app-transfer-list [dataSource]="rightDataSource" [titleText]="titleText" (handleSelect)="handleLeftSelect($event)"
+    (allHandleSelect)="handleLeftSelect($event)" [filterOption]="filterOption" (filterChange)="handleFilterChange($event)"
+    [searchPlaceholder]="searchPlaceholder" (status)="status('left',$event)" data-direction="right"></app-transfer-list>
