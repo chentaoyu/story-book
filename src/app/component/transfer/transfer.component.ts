@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, ElementRef, Input, OnChanges, Output } from '@angular/core';
 import { TcUpdateHostClassService } from '../core/service';
-import { TransferItem } from './interface';
+import { TransferItem, TransferCanMove, TransferChange } from './interface';
+import { of, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html',
@@ -13,15 +15,15 @@ export class TransferComponent implements OnInit, OnChanges {
   @Output() selectChange = new EventEmitter();
   @Output() searchChange = new EventEmitter();
   @Input() filterOption: (inputValue: string, item: TransferItem) => boolean;
-  leftStatus = false;
-  rightStatus = false;
+  @Output() ctChange: EventEmitter<TransferChange> = new EventEmitter();
+  leftActive = false;
+  rightActive = false;
   prefixCls = 'transfor-arrow-left';
-  // left
   leftDataSource: TransferItem[] = [];
-
-  // right
   rightDataSource: TransferItem[] = [];
-  constructor(private el: ElementRef, private updateHostClassService: TcUpdateHostClassService) { }
+
+  @Input() canMove: (arg: TransferCanMove) => Observable<TransferItem[]> = (arg: TransferCanMove) => of(arg.list);
+
 
   private splitDataSource(): void {
     this.leftDataSource = [];
@@ -37,11 +39,45 @@ export class TransferComponent implements OnInit, OnChanges {
 
   status(direction: string, value: boolean): void {
     if (direction === 'left') {
-      this.leftStatus = value;
+      this.leftActive = value;
     } else {
-      this.rightStatus = value;
+      this.rightActive = value;
     }
   }
+
+
+  moveToLeft = () => this.moveTo('left');
+  moveToRight = () => this.moveTo('right');
+
+  moveTo(direction: string) {
+    const oppsiteDirection = direction === 'left' ? 'right' : 'left';
+    this.updateOperationStatus(oppsiteDirection, 0);
+    const dataSource = direction === 'left' ? this.rightDataSource : this.leftDataSource;
+    const moveList = dataSource.filter(element => element.checked && !element.disabled);
+    this.canMove({ direction, list: moveList })
+      .subscribe(
+        newMoveList => this.truthMoveTo(direction, newMoveList.filter(i => !!i)),
+        () => moveList.forEach(i => i.checked = false)
+      );
+  }
+
+  private truthMoveTo(direction: string, list: TransferItem[]): void {
+    const oppositeDirection = direction === 'left' ? 'right' : 'left';
+    const datasource = direction === 'left' ? this.rightDataSource : this.leftDataSource;
+    const targetDatasource = direction === 'left' ? this.leftDataSource : this.rightDataSource;
+    for (const item of list) {
+      item.checked = false;
+      targetDatasource.push(item);
+      datasource.splice(datasource.indexOf(item), 1);
+    }
+    this.updateOperationStatus(oppositeDirection);
+    this.ctChange.emit({
+      from: oppositeDirection,
+      to: direction,
+      list
+    });
+  }
+
 
   ngOnInit() {
   }
@@ -71,4 +107,7 @@ export class TransferComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.splitDataSource();
   }
+
+
+  constructor(private el: ElementRef, private updateHostClassService: TcUpdateHostClassService) { }
 }
