@@ -45,7 +45,6 @@ export class TransferComponent implements OnInit, OnChanges {
     }
   }
 
-
   moveToLeft = () => this.moveTo('left');
   moveToRight = () => this.moveTo('right');
 
